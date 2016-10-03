@@ -6,6 +6,13 @@ other kinds of registries.
 
 ## 1. Technologies Used
 explanations of the technologies used
+-[Trello](https://trello.com/b/ANU4xu98)
+-[creately.com](https://creately.com/diagram/itubigp51/LcRG9WTAPfuFpacGpTrRA4cOFg%3D) for ERD, site diagramming, and file/directory structures
+-[Justinmind](https://www.justinmind.com/free-wireframing-tool) for wireframing
+-passport
+-mongoose
+-mongodb
+
 
 ## 2. My Approach
 the approach was taken

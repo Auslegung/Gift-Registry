@@ -26,38 +26,48 @@ router.post('/logout', function(req, res){
 
 });
 
-// Home Page
+// Render Home Page
 router.get('/home', function(req, res){
   var viewData = {title: 'GiftRegistryFreedom'};
   res.render('home', viewData);
 });
 
-// User's Home Page
+// Render User's Home Page
 router.get('/:userId/home', function(req, res){
   res.render('index/show');
 });
 
-// Display a registry to view
-router.get('/:userId/registry', function(req, res){
-  res.send('user registry page route working');
+// RENDER PAGE TO EDIT ITEM
+router.get('/:userId/home/:itemId', function(req, res){
+  res.render('index/edit');
 });
 
-// Create a new user
+// RENDER SEARCH RESULTS
+router.get('/home/results', function(req, res){
+  res.render('index/results');
+});
+
+// RENDER CHOSEN GIFT REGISTRY
+router.get('/:userId/registry', function(req, res){
+  res.render('index/show');
+});
+
+// ADD A NEW USER TO THE DATABASE
 router.post('/home/register', function(req, res){
 
 });
 
-// Create a new session
+// CREATE A NEW SESSION
 router.post('/home/login', function(req, res){
 
 });
 
-// Create a new registry item
+// CREATE A NEW ITEM IN THE USER'S GIFT REGISTRY
 router.post('/:userId/home/newItem', function(req, res){
 
 });
 
-// Edit an item in the user's registry
+// EDIT AN ITEM IN THE USER'S GIFT REGISTRY
 router.put('/:userId/home/:itemId', function(req, res){
 
 });

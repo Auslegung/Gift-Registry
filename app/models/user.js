@@ -15,14 +15,14 @@ var ItemSchema = new Schema({
 })
 
 var PartnerSchema = new Schema({
+  email: String,
   firstName: {type: String, required: true},
   lastName: {type: String, required: true},
-  email: {type: String, required: true}
 })
 
 var UserSchema = new Schema({
-  email: {type: String, required: true, unique: true},
-  password: {type: String, required: true},
+  email: String,
+  password: String,
   firstName: {type: String, required: true},
   lastName: {type: String, required: true},
   partner: [PartnerSchema],

@@ -17,13 +17,19 @@ router.use(flash());
 // Routes
 
 // Delete a registry item
-router.delete('/:userId/home/:itemId', function(req, res){
+router.post('/:userId/home/:itemId', function(req, res){
+
+});
+
+// Delete a session
+router.post('/logout', function(req, res){
 
 });
 
 // Home Page
 router.get('/home', function(req, res){
-  res.send('site home page route working');
+  var viewData = {title: 'GiftRegistryFreedom'};
+  res.render('home', viewData);
 });
 
 // User's Home Page
@@ -38,6 +44,11 @@ router.get('/:userId/registry', function(req, res){
 
 // Create a new user
 router.post('/home/register', function(req, res){
+
+});
+
+// Create a new session
+router.post('/home/login', function(req, res){
 
 });
 

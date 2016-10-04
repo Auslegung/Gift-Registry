@@ -34,7 +34,7 @@ router.get('/home', function(req, res){
 
 // User's Home Page
 router.get('/:userId/home', function(req, res){
-  res.send('user home page route working');
+  res.render('index/show');
 });
 
 // Display a registry to view

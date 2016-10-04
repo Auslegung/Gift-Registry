@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link href='/css/main.css' rel='stylesheet'>
+    <title>{{title}}</title>
+  </head>
+  <body>
+    <header>
+      Welcome, {{user}}!
+      <!-- {{#if user}} -->
+        <form class="logout" action="/logout?_method=DELETE" method="POST">
+          <button type="submit" name="logout">Log Out</button>
+        </form>
+      <!-- {{/if}} -->
+      <!-- {{#unless user}} -->
+        <form class="register" action="/home/register" method="POST">
+          <input type="text" name="username" placeholder="username">
+          <input type="password" name="password" placeholder="password">
+          <input type="submit" name="signup" value="Sign Up">
+        </form>
+        <form class="login" action="/home/login" method="POST">
+          <input type="text" name="username" placeholder="username">
+          <input type="password" name="password" placeholder="password">
+          <input type="submit" name="login" value="Log In">
+        </form>
+      <!-- {{/unless}} -->
+      <h1>GiftRegistryFreedom.com</h1>
+      <h2>Break free from gift registry restraints!</h2>
+      <form class="search" action="/:userId/registry" method="GET">
+        <input type="text" name="search" placeholder="name">
+        <input type="submit" name="search" value="Search for a Registry">
+      </form>
+    </header>
+    {{{ body }}}
+    <footer>
+
+    </footer>
+  </body>
+</html>

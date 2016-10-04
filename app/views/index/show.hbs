@@ -1,0 +1,41 @@
+
+<table>
+  <caption>
+    {{user.firstName}}'s and {{user.partner.firstName}}'s {{user.registryItems.registryType}} Registry
+  </caption>
+  <tr>
+    <th>Name</th>
+    <th>Image</th>
+    <th>Description</th>
+    <th>New or Used?</th>
+    <th>Quantity</th>
+    <th>Notes</th>
+    <th>Suggested stores</th>
+    <th>Still Needed</th>
+    <th>Edit</th>
+  </tr>
+  {{#each user.registryItems}}
+    <tr>
+      <td>user.registryItems.name</td>
+      <td>user.registryItems.image</td>
+      <td>user.registryItems.description</td>
+      <td>user.registryItems.new</td>
+      <td>user.registryItems.quantity</td>
+      <td>user.registryItems.note</td>
+      <td>user.registryItems.locations</td>
+      <td>user.registryItems.purchased</td>
+      <td><a href="/:userId/home/:itemId">Edit</a></td>
+    </tr>
+    {{/each}}
+  <tr>
+    <td><input type="text" placeholder="Input New Item Here"></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+</table>

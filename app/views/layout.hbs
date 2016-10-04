@@ -15,12 +15,17 @@
       <!-- {{/if}} -->
       <!-- {{#unless user}} -->
         <form class="register" action="/home/register" method="POST">
-          <input type="text" name="username" placeholder="username">
+          <input type="email" name="email" placeholder="email">
           <input type="password" name="password" placeholder="password">
+          <input type="text" name="firstName" placeholder="First Name">
+          <input type="text" name="lastName" placeholder="last name">
+          <input type="text" name="partnerFirstName" placeholder="partner's first name">
+          <input type="text" name="partnerLastName" placeholder="partner's last name">
+          <input type="email" name="partnerEmail" placeholder="partner's email">
           <input type="submit" name="signup" value="Sign Up">
         </form>
         <form class="login" action="/home/login" method="POST">
-          <input type="text" name="username" placeholder="username">
+          <input type="text" name="email" placeholder="email">
           <input type="password" name="password" placeholder="password">
           <input type="submit" name="login" value="Log In">
         </form>

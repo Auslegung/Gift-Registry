@@ -16,58 +16,88 @@ router.use(flash());
 
 // Routes
 
-// Delete a registry item
+
+////////////////   DELETE ROUTES   ////////////////
+
+// delete an item from a user's gift registry
 router.post('/:userId/home/:itemId', function(req, res){
 
 });
 
-// Delete a session
+// delete a session
 router.post('/logout', function(req, res){
 
 });
 
-// Render Home Page
+////////////////   GET ROUTES   ////////////////
+
+// render home page
 router.get('/home', function(req, res){
   var viewData = {title: 'GiftRegistryFreedom'};
   res.render('home', viewData);
 });
 
-// Render User's Home Page
+// render a user's home page
 router.get('/:userId/home', function(req, res){
   res.render('index/show');
 });
 
-// RENDER PAGE TO EDIT ITEM
+// render page to edit item
 router.get('/:userId/home/:itemId', function(req, res){
   res.render('index/edit');
 });
 
-// RENDER SEARCH RESULTS
+// render search results
 router.get('/home/results', function(req, res){
   res.render('index/results');
 });
 
-// RENDER CHOSEN GIFT REGISTRY
+// render chosen gift registry
 router.get('/:userId/registry', function(req, res){
   res.render('index/show');
 });
 
-// ADD A NEW USER TO THE DATABASE
+////////////////   POST ROUTES   ////////////////
+
+// add a new user to the database
 router.post('/home/register', function(req, res){
-
+  User.register(
+    new User({
+      username: req.body.email,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      partner: req.body.partner,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      registryItems: []
+    }),
+    req.body.password,
+    function(err, user){
+      if (err) {
+        console.log(err);
+        return res.status(400).send('Could not register');
+      } else {
+        console.log('no error when creating ', user);
+        req.flash('info', 'Registration was a success!');
+      } // end if else
+      res.redirect('/home');
+    } // end function
+  ) // end User.register
 });
 
-// CREATE A NEW SESSION
-router.post('/home/login', function(req, res){
-
+// create a new session
+router.post('/home/login', passport.authenticate('local', {failureRedirect: '/home', failureFlash: true, successFlash: 'Welcome!'}), function(req, res){
+  res.redirect('/:userId/home')
 });
 
-// CREATE A NEW ITEM IN THE USER'S GIFT REGISTRY
+// create a new item in the user's gift registry
 router.post('/:userId/home/newItem', function(req, res){
 
 });
 
-// EDIT AN ITEM IN THE USER'S GIFT REGISTRY
+////////////////   PUT ROUTE   ////////////////
+
+// edit an item in the user's gift registry
 router.put('/:userId/home/:itemId', function(req, res){
 
 });

@@ -14,9 +14,18 @@ var ItemSchema = new Schema({
   registryType: String
 })
 
+var PartnerSchema = new Schema({
+  firstName: {type: String, required: true},
+  lastName: {type: String, required: true},
+  email: {type: String, required: true}
+})
+
 var UserSchema = new Schema({
   email: {type: String, required: true, unique: true},
   password: {type: String, required: true},
+  firstName: {type: String, required: true},
+  lastName: {type: String, required: true},
+  partner: [PartnerSchema],
   createdAt: Date,
   updatedAt: Date,
   registryItems: [ItemSchema]

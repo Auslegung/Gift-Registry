@@ -26,7 +26,7 @@ var flash = require('connect-flash');
 app.use(flash());
 
 // Routing
-app.use('/', require('.controllers/index.js'));
+app.use('/', require('./controllers/index.js'));
 
 // Promises
 var mongoose = require('mongoose');

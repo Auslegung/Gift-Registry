@@ -13,35 +13,38 @@
     <th>Suggested stores</th>
     <th>Still Needed</th>
     {{#if user}}
-      <th>Edit</th>
+      <th>Add/Edit</th>
     {{/if}}
   </tr>
   {{#each user.registryItems}}
     <tr>
-      <td>{{user.registryItems.name}}</td>
-      <td>{{user.registryItems.image}}</td>
-      <td>{{user.registryItems.description}}</td>
-      <td>{{user.registryItems.new}}</td>
-      <td>{{user.registryItems.quantity}}</td>
-      <td>{{user.registryItems.note}}</td>
-      <td>{{user.registryItems.locations}}</td>
-      <td>{{user.registryItems.purchased}}</td>
+      <td>{{name}}</td>
+      <td>{{image}}</td>
+      <td>{{description}}</td>
+      <td>{{new}}</td>
+      <td>{{quantity}}</td>
+      <td>{{note}}</td>
+      <td>{{locations}}</td>
+      <td>{{purchased}}</td>
       {{#if user}}
         <td><a href="/:userId/home/:itemId">Edit</a></td>
       {{/if}}
     </tr>
   {{/each}}
   {{#if user}}
-    <tr>
-      <td><input type="text" placeholder="Input New Item Here"></td>
-      <td><input type="text" placeholder="image"></td>
-      <td><input type="text" placeholder="description"></td>
-      <td><input type="text" placeholder="new or used? "></td>
-      <td><input type="text" placeholder="quantity"></td>
-      <td><input type="text" placeholder="notes"></td>
-      <td><input type="text" placeholder="suggested stores"></td>
-      <td><input type="text" placeholder="still needed"></td>
-      <td><input type="text" placeholder="new "></td>
-    </tr>
+  <form class="newItem " action="/:userId/home/newItem" method="POST">
+      <tr>
+        <td><input type='text' name="name" placeholder="Input New Item Here"></td>
+        <td><input type='text' name="image" placeholder="image"></td>
+        <td><input type='text' name="description" placeholder="description"></td>
+        <td><input type='text' name="new" placeholder="new or used? "></td>
+        <td><input type='text' name="quantity" placeholder="quantity"></td>
+        <td><input type='text' name="note" placeholder="notes"></td>
+        <td><input type='text' name="locations" placeholder="suggested stores"></td>
+        <td><input type='text' name="purchased" placeholder="still needed"></td>
+        <td><button type='text' name="submit" name="submit">Add New Item</button></td>
+      </tr>
+      <!-- <button type="submit" name="submit">Add New Item</button> -->
+    </form>
   {{/if}}
 </table>

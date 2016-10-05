@@ -100,8 +100,6 @@ router.post('/home/register', function(req, res){
 });
 
 // create a new session
-// testing if /home/login should be /home
-// router.post('/home', passport.authenticate('local' {failureRedirect: '/home', failureFlash: true, successFlash: 'Welcome!'}), function(req, res){
 router.post('/home/login', passport.authenticate('local', {failureRedirect: '/home', failureFlash: true, successFlash: 'Welcome!'}), function(req, res){
     req.session.save(function(err){
     if (err) {
@@ -118,17 +116,47 @@ router.post('/home/login', passport.authenticate('local', {failureRedirect: '/ho
   }) // end req.session.save
 });
 
-
-
 // create a new item in the user's gift registry
 router.post('/:userId/home/newItem', function(req, res){
-
+  User.findByIdAndUpdate(
+    req.user._id,
+    {$push: {
+      registryItems: {
+        name: req.body.name,
+        image: req.body.image,
+        description: req.body.description,
+        new: req.body.new,
+        quantity: req.body.quantity,
+        note: req.body.note,
+        locations: [req.body.locations],
+        purchased: req.body.purchased,
+        registryType: 'baby'
+      }}}, // end $push registryItems
+    {upsert: true, new: true},
+    function(err){
+      if (err) {
+        console.log(err);
+      }
+      res.redirect('/' + req.user._id + '/home');
+    }
+  ) // end findByIdAndUpdate
+  // User.registryItems.push(
+  //   name: req.body.name,
+  //   image: req.body.image,
+  //   description: req.body.description,
+  //   new: req.body.new,
+  //   quantity: req.body.quantity,
+  //   note: req.body.note,
+  //   locations: [req.body.locations],
+  //   purchased: req.body.purchased,
+  //   registryType: 'baby'
+  // )
 });
 
-////////////////   PUT ROUTE   ////////////////
+////////////////   PATCH ROUTE   ////////////////
 
 // edit an item in the user's gift registry
-router.put('/:userId/home/:itemId', function(req, res){
+router.patch('/:userId/home/:itemId', function(req, res){
 
 });
 

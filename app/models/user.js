@@ -21,7 +21,7 @@ var PartnerSchema = new Schema({
 })
 
 var UserSchema = new Schema({
-  email: String,
+  username: String,
   password: String,
   firstName: {type: String, required: true},
   lastName: {type: String, required: true},

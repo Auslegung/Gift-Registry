@@ -7,15 +7,17 @@
   </head>
   <body>
     <header>
-      Welcome, {{user}}!
-      <!-- {{#if user}} -->
+      <!-- if successFlash
+      <p>{{successFlash}}</p> -->
+
+      {{#if user}}
         <form class="logout" action="/logout?_method=DELETE" method="POST">
           <button type="submit" name="logout">Log Out</button>
         </form>
-      <!-- {{/if}} -->
-      <!-- {{#unless user}} -->
+      {{/if}}
+      {{#unless user}}
         <form class="register" action="/home/register" method="POST">
-          <input type="email" name="email" placeholder="email">
+          <input type="email" name="username" placeholder="email">
           <input type="password" name="password" placeholder="password">
           <input type="text" name="firstName" placeholder="First Name">
           <input type="text" name="lastName" placeholder="last name">
@@ -25,11 +27,13 @@
           <input type="submit" name="signup" value="Sign Up">
         </form>
         <form class="login" action="/home/login" method="POST">
-          <input type="text" name="email" placeholder="email">
+          <!-- testing if /home/login should be /home -->
+        <!-- <form class="login" action="/home" method="POST"> -->
+          <input type="email" name="username" placeholder="email">
           <input type="password" name="password" placeholder="password">
           <input type="submit" name="login" value="Log In">
         </form>
-      <!-- {{/unless}} -->
+      {{/unless}}
       <h1>GiftRegistryFreedom.com</h1>
       <h2>Break free from gift registry restraints!</h2>
       <form class="search" action="/:userId/registry" method="GET">

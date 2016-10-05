@@ -16,19 +16,19 @@ router.use(flash());
 
 // Routes
 
-
 ////////////////   DELETE ROUTES   ////////////////
 
 // delete an item from a user's gift registry
-router.post('/:userId/home/:itemId', function(req, res){
+router.delete('/:userId/home/:itemId', function(req, res){
 
 });
 
-// delete a session
-router.post('/logout', function(req, res){
-
+// delete the current session
+router.delete('/logout', function(req, res){
+  req.logout();
+  req.flash('info', 'Successfully logged out');
+  res.redirect('/home');
 });
-
 ////////////////   GET ROUTES   ////////////////
 
 // render home page
@@ -39,8 +39,22 @@ router.get('/home', function(req, res){
 
 // render a user's home page
 router.get('/:userId/home', function(req, res){
-  res.render('index/show');
+  // console.log('first name is:', req.user.firstName);
+  // DEREK where does :userId come from?
+  // DEREK how to get the user's registry to appear when searched for by someone else? (no one logged in)
+  // DEREK why won't flash work
+  //
+  res.render('index/show', {user: req.user});
 });
+
+// router.post('search', function(req,res){
+//   User.find(name: {req.body.name })
+//
+//   { _id = 1, name: 'derek'}
+//     { _id = 2, name: 'derek jacobi'}
+//
+//   <a href='user._id/home' > Derek </a>
+// })
 
 // render page to edit item
 router.get('/:userId/home/:itemId', function(req, res){
@@ -86,9 +100,25 @@ router.post('/home/register', function(req, res){
 });
 
 // create a new session
+// testing if /home/login should be /home
+// router.post('/home', passport.authenticate('local' {failureRedirect: '/home', failureFlash: true, successFlash: 'Welcome!'}), function(req, res){
 router.post('/home/login', passport.authenticate('local', {failureRedirect: '/home', failureFlash: true, successFlash: 'Welcome!'}), function(req, res){
-  res.redirect('/:userId/home')
+    req.session.save(function(err){
+    if (err) {
+      return next(err);
+    } // end if
+    User.findOne({email: req.session.passport.email}).exec()
+    .then(function(){
+      res.redirect('/' + req.user._id + '/home');
+    }) // end then
+    .catch(function(err){
+      console.log('ERROR:', err);
+      res.head(400);
+    }) // end catch
+  }) // end req.session.save
 });
+
+
 
 // create a new item in the user's gift registry
 router.post('/:userId/home/newItem', function(req, res){

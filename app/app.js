@@ -6,10 +6,14 @@
 var express = require('express');
 var app = express();
 
+// Serve Static Assets
+app.use(express.static(__dirname + '/public'));
+
 // Handle forms
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json()); // delete if not helpful
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
 // Express & Handlebars
@@ -38,6 +42,7 @@ mongoose.connect('mongodb://localhost/gift');
 // Login sessions and validation
 var passport = require('passport');
 var User = require('./models/user.js');
+var localStrategy = require('passport-local').Strategy;
 app.use(require('express-session')({
   secret: 'keyboard cat',
   resave: false,
@@ -46,6 +51,7 @@ app.use(require('express-session')({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(function(req, res, next){
+  console.log(req);
   res.locals.user = req.user;
   next();
 });

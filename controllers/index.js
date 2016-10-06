@@ -68,14 +68,18 @@ router.get('/home/results', function(req, res){
     var firstName = fullName[0];
     var lastName = fullName[fullName.length - 1];
     // return User.find({$text: { $search: searchString }});
-    var viewData = function(){
-      return User.find({$and: [ {'firstName': new RegExp(firstName)}, {'lastName': new RegExp(lastName)} ]});
-    }
+    new Promise(function(resolve, reject){
+      resolve();
+    })
     .then(function(){
-      res.render('index/results');
+      return User.find({$and: [ {'firstName': new RegExp(firstName)}, {'lastName': new RegExp(lastName)} ]});
     })
     .catch(function(err){
       console.log(err);
+    })
+    .then(function(user){
+      console.log(user);
+      res.render('index/results', {user: user});
     })
   } // end if
 });

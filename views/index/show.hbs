@@ -25,7 +25,7 @@
       <td>{{quantity}}</td>
       <td>{{note}}</td>
       <td>{{locations}}</td>
-      <td>{{purchased}}</td>
+      <td>{{stillNeeded}}</td>
       {{#if ../user}}
         <td><a href="/" + ../user._id + "/home/" + {{itemId}}>Edit</a></td>
       {{/if}}
@@ -41,7 +41,7 @@
         <td><input type='text' name="quantity" placeholder="quantity"></td>
         <td><input type='text' name="note" placeholder="notes"></td>
         <td><input type='text' name="locations" placeholder="suggested stores"></td>
-        <td><input type='text' name="purchased" placeholder="still needed"></td>
+        <td><input type='text' name="stillNeeded" placeholder="still needed"></td>
         <td><button type='submit' name="submit">Add New Item</button></td>
       </tr>
     </form>

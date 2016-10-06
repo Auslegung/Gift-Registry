@@ -27,8 +27,6 @@
           <input type="submit" name="signup" value="Sign Up">
         </form>
         <form class="login" action="/home/login" method="POST">
-          <!-- testing if /home/login should be /home -->
-        <!-- <form class="login" action="/home" method="POST"> -->
           <input type="email" name="username" placeholder="email">
           <input type="password" name="password" placeholder="password">
           <input type="submit" name="login" value="Log In">
@@ -36,9 +34,9 @@
       {{/unless}}
       <h1>GiftRegistryFreedom.com</h1>
       <h2>Break free from gift registry restraints!</h2>
-      <form class="search" action="/:userId/registry" method="GET">
-        <input type="text" name="search" placeholder="name">
-        <input type="submit" name="search" value="Search for a Registry">
+      <form class="search" action="/home/results" method="GET">
+        <input type="text" name="searchString" placeholder="name">
+        <input type="submit" name="search">Search for a Registry</input>
       </form>
     </header>
     {{{ body }}}

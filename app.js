@@ -37,7 +37,10 @@ app.use('/', require('./controllers/index.js'));
 var mongoose = require('mongoose');
 // Mongoose
 mongoose.Promises = global.Promise;
-mongoose.connect('mongodb://localhost/gift');
+// mongoose.connect('mongodb://localhost/gift');
+var mongoURI =  process.env.MONGODB_URI || 'mongodb://localhost/gift';
+mongoose.connect(mongoUri);
+
 
 // Login sessions and validation
 var passport = require('passport');
@@ -59,4 +62,4 @@ passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-app.listen(3000);
+app.listen(process.env.PORT || 3000 );

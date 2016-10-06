@@ -1,4 +1,16 @@
 <h1>Registries:</h1>
-{{#each user}}
-  <p>{{firstName}} {{lastName}}</p>
-{{/each}}
+  <table>
+    <caption><h2> Search Results </h2></caption>
+    <tr>
+      <th>Name</th>
+      <th>City</th>
+      <th>State</th>
+    </tr>
+    {{#each user}}
+      <tr>
+        <td>{{fullName}}</td>
+        <td>{{address.city}}</td>
+        <td>{{address.state}}</td>
+      </tr>
+    {{/each}}
+  </table>

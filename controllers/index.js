@@ -63,16 +63,16 @@ router.get('/:userId/home/:itemId', function(req, res){
 
 // render search results
 router.get('/home/results', function(req, res){
-  var fullName = req.query.searchString.split(' ');
-  if (fullName) {
-    var firstName = fullName[0];
-    var lastName = fullName[fullName.length - 1];
-    // return User.find({$text: { $search: searchString }});
+  var searchString = req.query.searchString;
+  if (searchString) {
+    var names = searchString.split(' ');
+    var firstName = names[0];
+    var lastName = names[names.length - 1];
     new Promise(function(resolve, reject){
       resolve();
     })
     .then(function(){
-      return User.find({$and: [ {'firstName': new RegExp(firstName)}, {'lastName': new RegExp(lastName)} ]});
+      return User.find({ fullName: new RegExp(searchString, 'i') });
     })
     .catch(function(err){
       console.log(err);
@@ -93,15 +93,20 @@ router.get('/:userId/registry', function(req, res){
 
 // add a new user to the database
 router.post('/home/register', function(req, res){
+  console.log(req.body);
   User.register(
     new User({
-      username: req.body.email,
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
+      username: req.body.username,
+      fullName: req.body.firstName + ' ' + req.body.lastName,
       partner: req.body.partner,
       createdAt: new Date(),
       updatedAt: new Date(),
-      registryItems: []
+      registryItems: [],
+      'address.address1': req.body.address1,
+      'address.address2': req.body.address2,
+      'address.city': req.body.city,
+      'address.state': req.body.state,
+      'address.zip': req.body.zip,
     }),
     req.body.password,
     function(err, user){
@@ -147,7 +152,7 @@ router.post('/:userId/home/newItem', function(req, res){
         quantity: req.body.quantity,
         note: req.body.note,
         locations: [req.body.locations],
-        purchased: req.body.purchased,
+        stillNeeded: req.body.stillNeeded,
         registryType: 'baby'
       }}}, // end $push registryItems
     {upsert: true, new: true},
@@ -166,7 +171,7 @@ router.post('/:userId/home/newItem', function(req, res){
   //   quantity: req.body.quantity,
   //   note: req.body.note,
   //   locations: [req.body.locations],
-  //   purchased: req.body.purchased,
+  //   stillNeeded: req.body.stillNeeded,
   //   registryType: 'baby'
   // )
 });

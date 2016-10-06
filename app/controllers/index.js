@@ -58,12 +58,24 @@ router.get('/:userId/home', function(req, res){
 
 // render page to edit item
 router.get('/:userId/home/:itemId', function(req, res){
-  res.render('index/edit');
+  res.render('index/edit', {user: req.body.user})
 });
 
 // render search results
 router.get('/home/results', function(req, res){
-  res.render('index/results');
+  var fullName = req.query.searchString.split(' ');
+  if (fullName) {
+    var firstName = fullName[0];
+    var lastName = fullName[fullName.length - 1];
+    // return User.find({$text: { $search: searchString }});
+    return User.find({$and: [ {'firstName': new RegExp(firstName)}, {'lastName': new RegExp(lastName)} ]});
+  }
+  var p1 = new Promise(function(resolve, reject){
+    res.render('index/results');
+  })
+  .catch(function(err){
+    console.log(err);
+  })
 });
 
 // render chosen gift registry

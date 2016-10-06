@@ -36,7 +36,7 @@ app.use('/', require('./controllers/index.js'));
 // Promises
 var mongoose = require('mongoose');
 // Mongoose
-mongoose.Promises = global.Promise;
+mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/gift');
 
 // Login sessions and validation

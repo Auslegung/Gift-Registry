@@ -1,4 +1,8 @@
-
+{{#each user.registryItems}}
+  loggedIn is: {{../loggedIn}}
+{{/each}}
+<!-- fix the line below.  Had to wrap entire table in form -->
+    <form class="" action="/{{user._id}}/home/{{user.registryItems._id}}?_method=PUT" method="POST">
 <table>
   <caption>
     {{user.firstName}}'s and {{user.partner.firstName}}'s {{user.registryItems.registryType}} Registry
@@ -12,14 +16,15 @@
     <th>Notes</th>
     <th>Suggested stores</th>
     <th>Still Needed</th>
-    {{#if user}}
+    {{#if loggedIn}}
       <th>Add/Edit</th>
     {{/if}}
   </tr>
   {{#each user.registryItems}}
     <tr>
-      {{#if ../user}}
-        <td contenteditable="true">{{name}}</td>
+      {{#if ../loggedIn}}
+
+        <td contenteditable="true"><{{name}}</td>
         <td contenteditable="true">{{image}}</td>
         <td contenteditable="true">{{description}}</td>
         <td contenteditable="true">{{new}}</td>
@@ -27,22 +32,24 @@
         <td contenteditable="true">{{note}}</td>
         <td contenteditable="true">{{locations}}</td>
         <td contenteditable="true">{{stillNeeded}}</td>
-        <td><a href="/{{../_id}}/home/{{_id}}"> Save </a></td>
+        <td>
+        <input type="submit" >
+        </td>
+
       {{else}}
-        <td>{{user.name}}</td>
-        <td>{{user.image}}</td>
-        <td>{{user.description}}</td>
-        <td>{{user.new}}</td>
-        <td>{{user.quantity}}</td>
-        <td>{{user.note}}</td>
-        <td>{{user.locations}}</td>
-        <td>{{user.stillNeeded}}</td>
+        <td>{{name}}</td>
+        <td>{{image}}</td>
+        <td>{{description}}</td>
+        <td>{{new}}</td>
+        <td>{{quantity}}</td>
+        <td>{{note}}</td>
+        <td>{{locations}}</td>
+        <td>{{stillNeeded}}</td>
       {{/if}}
-
-
     </tr>
+
   {{/each}}
-  {{#if user}}
+  {{#if loggedIn}}
   <form class="newItem " action="/:userId/home/newItem" method="POST">
       <tr>
         <td><input type='text' name="name" placeholder="Input New Item Here"></td>
@@ -58,3 +65,4 @@
     </form>
   {{/if}}
 </table>
+  </form>

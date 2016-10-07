@@ -39,12 +39,18 @@ router.get('/home', function(req, res){
 
 // render a user's home page
 router.get('/:userId/home', function(req, res){
-  // console.log('first name is:', req.user.firstName);
-  // DEREK where does :userId come from?
-  // DEREK how to get the user's registry to appear when searched for by someone else? (no one logged in)
-  // DEREK why won't flash work
-  //
-  res.render('index/show', {user: req.user});
+    User.findById(req.params.userId)
+  .then(function(user){
+    if (Object.keys(req.sessionStore.sessions).length) {
+      var loggedIn = true;
+    } else {
+      var loggedIn = false;
+    }
+    return {user: user, loggedIn: loggedIn};
+  })
+  .then(function(userAndLoggedIn){
+    res.render('index/show', {user: userAndLoggedIn.user, loggedIn: userAndLoggedIn.loggedIn});
+  });
 });
 
 // router.post('search', function(req,res){
@@ -58,6 +64,7 @@ router.get('/:userId/home', function(req, res){
 
 // render page to edit item
 router.get('/:userId/home/:itemId', function(req, res){
+  console.log('oops');
   res.render('index/edit', {user: req.body.user})
 });
 
@@ -176,11 +183,17 @@ router.post('/:userId/home/newItem', function(req, res){
   // )
 });
 
-////////////////   PATCH ROUTE   ////////////////
+////////////////   PUT ROUTE   ////////////////
 
 // edit an item in the user's gift registry
-router.patch('/:userId/home/:itemId', function(req, res){
-
+router.put('/:userId/home/:itemId', function(req, res){
+  console.log(req.body);
+  // should be able to do a findOneAndUpdate on the itemId directly, without
+  // going through the User first
+  // User.findOneAndUpdate(
+  //   req.params.itemId,
+  //
+  // )
 });
 
 

@@ -1,68 +1,70 @@
-{{#each user.registryItems}}
-  loggedIn is: {{../loggedIn}}
-{{/each}}
-<!-- fix the line below.  Had to wrap entire table in form -->
-    <form class="" action="/{{user._id}}/home/{{user.registryItems._id}}?_method=PUT" method="POST">
-<table>
-  <caption>
-    {{user.firstName}}'s and {{user.partner.firstName}}'s {{user.registryItems.registryType}} Registry
-  </caption>
-  <tr>
-    <th>Name</th>
-    <th>Image</th>
-    <th>Description</th>
-    <th>New or Used?</th>
-    <th>Quantity</th>
-    <th>Notes</th>
-    <th>Suggested stores</th>
-    <th>Still Needed</th>
-    {{#if loggedIn}}
-      <th>Add/Edit</th>
-    {{/if}}
-  </tr>
-  {{#each user.registryItems}}
-    <tr>
-      {{#if ../loggedIn}}
+<div class="module-card-wrap">
 
-        <td contenteditable="true"><{{name}}</td>
-        <td contenteditable="true">{{image}}</td>
-        <td contenteditable="true">{{description}}</td>
-        <td contenteditable="true">{{new}}</td>
-        <td contenteditable="true">{{quantity}}</td>
-        <td contenteditable="true">{{note}}</td>
-        <td contenteditable="true">{{locations}}</td>
-        <td contenteditable="true">{{stillNeeded}}</td>
-        <td>
-        <input type="submit" >
-        </td>
-
-      {{else}}
-        <td>{{name}}</td>
-        <td>{{image}}</td>
-        <td>{{description}}</td>
-        <td>{{new}}</td>
-        <td>{{quantity}}</td>
-        <td>{{note}}</td>
-        <td>{{locations}}</td>
-        <td>{{stillNeeded}}</td>
-      {{/if}}
-    </tr>
-
-  {{/each}}
   {{#if loggedIn}}
-  <form class="newItem " action="/:userId/home/newItem" method="POST">
-      <tr>
-        <td><input type='text' name="name" placeholder="Input New Item Here"></td>
-        <td><input type='text' name="image" placeholder="image"></td>
-        <td><input type='text' name="description" placeholder="description"></td>
-        <td><input type='text' name="new" placeholder="new or used? "></td>
-        <td><input type='text' name="quantity" placeholder="quantity"></td>
-        <td><input type='text' name="note" placeholder="notes"></td>
-        <td><input type='text' name="locations" placeholder="suggested stores"></td>
-        <td><input type='text' name="stillNeeded" placeholder="still needed"></td>
-        <td><button type='submit' name="submit">Add New Item</button></td>
-      </tr>
-    </form>
+    <div class="module-card">
+      <form class="" action="/user.id/home/newItem" method="POST">
+        <input class="module-card-name" contenteditable="true" name="name"></input>
+
+        <div class="module-card-meta">
+          <div class="module-card-category">
+            <span class="fa fa-tag"></span>
+            <span>Still Needed: </span><input type="Number" name="stillNeeded" min='0' value="1">
+          </div>
+          <div class="module-card-new">
+            <span class="fa fa-user"></span>
+            <label>New: <input type="checkbox" name="new" value="new"></label><br>
+            <label>Used: <input type="checkbox" name="used" value="used"></label>
+          </div>
+        </div> <!-- /module-card-meta -->
+
+        <div class="module-card-bottom">
+          <input type="url" name="image" placeholder="image url">
+          <div><br>
+            <textarea rows='3' name="description" placeholder="enter notes, description, suggested stores, etc"></textarea>
+          </div>
+
+          <div class="module-card-button-wrap">
+              <button class="module-card-button"> Add New Item </button>
+          </div> <!-- /module-card-button-wrap -->
+
+        </div> <!-- /module-card-bottom -->
+      </form>
+    </div> <!-- /module-card -->
   {{/if}}
-</table>
-  </form>
+
+  {{#each user.registryItems}}
+    <div class="module-card">
+      <div class="module-card-name" contenteditable="true">{{name}}</div>
+
+      <div class="module-card-meta">
+        <div class="module-card-category">
+          <span class="fa fa-tag"></span>
+          <span>Still Needed: <span contenteditable="true">{{stillNeeded}}</span></span>
+        </div>
+        <div class="module-card-new">
+          <span class="fa fa-user"></span>
+          <span>New: {{new}}</span>
+        </div>
+      </div> <!-- /module-card-meta -->
+
+      <div class="module-card-bottom">
+        <img src={{image}} alt="image of item" class="module-card-img" />
+
+        <div>
+          <p>{{description}}</p>
+        </div>
+
+        <div class="module-card-button-wrap">
+          <form class="" action="/{{../user._id}}/home/{{_id}}?_method=PUT" method="POST">
+            <button class="module-card-button"> Update </button>
+          </form>
+          <form class="" action="/{{../user._id}}/home/{{_id}}?_method=DELETE" method="POST">
+            <button class="module-card-button"> Delete </button>
+          </form>
+        </div> <!-- /module-card-button-wrap -->
+
+      </div> <!-- /module-card-bottom -->
+    </div> <!-- /module-card -->
+  {{/each}}
+
+</div> <!-- /module-card-wrap -->

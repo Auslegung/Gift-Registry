@@ -81,7 +81,7 @@ input[name='description'] {
 }
 
 [contentEditable=true]:empty:not(:focus):before{
-  content: attr(data-text);
+  /*content: attr(data-text);*/
   color: lightgrey;
   font-weight: normal;
 }

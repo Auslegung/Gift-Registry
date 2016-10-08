@@ -10,12 +10,12 @@
       <!-- if successFlash
       <p>{{successFlash}}</p> -->
 
-      {{#if user}}
+      {{#if loggedIn}}
         <form class="logout" action="/logout?_method=DELETE" method="POST">
           <button type="submit" name="logout">Log Out</button>
         </form>
       {{/if}}
-      {{#unless user}}
+      {{#unless loggedIn}}
         <form class="register" action="/home/register" method="POST">
           <input type="email" autofocus="true" required name="username" placeholder="email">
           <input type="password" name="password" required placeholder="password">

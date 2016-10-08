@@ -34,36 +34,32 @@
 
   {{#each user.registryItems}}
     <div class="module-card">
-      <div class="module-card-name" contenteditable="true">{{name}}</div>
+      <form action="/{{../user._id}}/home/{{_id}}" method="GET">
+        <div class="module-card-name" name='name' contenteditable="true">{{name}}</div>
 
-      <div class="module-card-meta">
-        <div class="module-card-category">
-          <span class="fa fa-tag"></span>
-          <span>Still Needed: <span contenteditable="true">{{stillNeeded}}</span></span>
-        </div>
-        <div class="module-card-new">
-          <span class="fa fa-user"></span>
-          <span>New: {{new}}</span>
-        </div>
-      </div> <!-- /module-card-meta -->
+        <div class="module-card-meta">
+          <div class="module-card-category">
+            <span class="fa fa-tag"></span>
+            <span>Still Needed: <span name='stillNeeded' contenteditable="true">{{stillNeeded}}</span></span>
+          </div>
+          <div class="module-card-new">
+            <span class="fa fa-user"></span>
+            <span name='new'>New: {{new}}</span>
+          </div>
+        </div> <!-- /module-card-meta -->
 
-      <div class="module-card-bottom">
-        <img src={{image}} alt="image of item" class="module-card-img" />
+        <div class="module-card-bottom">
+          <img name='image' src={{image}} alt="image of item" class="module-card-img" />
 
-        <div>
-          <p>{{description}}</p>
-        </div>
-
-        <div class="module-card-button-wrap">
-          <form class="" action="/{{../user._id}}/home/{{_id}}?_method=PUT" method="POST">
-            <button class="module-card-button"> Update </button>
-          </form>
-          <form class="" action="/{{../user._id}}/home/{{_id}}?_method=DELETE" method="POST">
-            <button class="module-card-button"> Delete </button>
-          </form>
-        </div> <!-- /module-card-button-wrap -->
-
-      </div> <!-- /module-card-bottom -->
+          <div><p name='description'>{{description}}</p></div>
+          <div class="module-card-button-wrap">
+            <button class="module-card-button"> Edit </button>
+            <!-- <form class="" action="/{{../user._id}}/home/{{_id}}?_method=DELETE" method="POST">
+              <button class="module-card-button"> Delete </button>
+            </form> -->
+          </div> <!-- /module-card-button-wrap -->
+        </div> <!-- /module-card-bottom -->
+      </form>
     </div> <!-- /module-card -->
   {{/each}}
 

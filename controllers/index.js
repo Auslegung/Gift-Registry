@@ -41,7 +41,7 @@ router.get('/home', function(req, res){
 router.get('/:userId/home', function(req, res){
     User.findById(req.params.userId)
   .then(function(user){
-    if (Object.keys(req.sessionStore.sessions).length) {
+    if (Object.keys(req.sessionStore.sessions).length) { // if username TODO
       var loggedIn = true;
     } else {
       var loggedIn = false;
@@ -64,8 +64,13 @@ router.get('/:userId/home', function(req, res){
 
 // render page to edit item
 router.get('/:userId/home/:itemId', function(req, res){
-  // console.log('oops');
-  res.render('index/edit', {user: req.body.user})
+  User.findById(req.params.userId)
+  .then(function(user){
+    return user.registryItems.id(req.params.itemId)
+  })
+  .then(function(item){
+    res.render('index/edit', {item: item})
+  })
 });
 
 // render search results
@@ -171,30 +176,19 @@ router.post('/:userId/home/newItem', function(req, res){
       res.redirect('/' + req.user._id + '/home');
     }
   ) // end findByIdAndUpdate
-  // User.registryItems.push(
-  //   name: req.body.name,
-  //   image: req.body.image,
-  //   description: req.body.description,
-  //   new: req.body.new,
-  //   quantity: req.body.quantity,
-  //   note: req.body.note,
-  //   locations: [req.body.locations],
-  //   stillNeeded: req.body.stillNeeded,
-  //   registryType: 'baby'
-  // )
 });
 
 ////////////////   PUT ROUTE   ////////////////
 
 // edit an item in the user's gift registry
 router.put('/:userId/home/:itemId', function(req, res){
-  console.log(req.params);
-  console.log(req.body);
-  console.log('req is:', req);
+  console.log('req.params inside put route:', req.params);
+  console.log('req.body:', req.body);
+  console.log('res:', res);
   // should be able to do a findOneAndUpdate on the itemId directly, without
   // going through the User first
   User.findOneAndUpdate(
-    {id: req.params.itemId},
+    {id: req.params.userId},
     {$set: {
       name: req.body.name,
       image: req.body.image,

@@ -1,23 +1,25 @@
 <div class="module-card-wrap">
   <div class="module-card">
-    <form action="/{{user._id}}/home/{{_id}}?_method=PUT" method="POST">
-      <div class="module-card-name" name='name' contenteditable="true">{{item.name}}</div>
+    <form action="/{{user._id}}/home/{{item._id}}?_method=PUT" method="POST">
+      <input class="module-card-name" name='name' value={{item.name}}>
 
       <div class="module-card-meta">
         <div class="module-card-category">
           <span class="fa fa-tag"></span>
-          <span>Still Needed: <span name='stillNeeded' contenteditable="true">{{item.stillNeeded}}</span></span>
+          <span>Still Needed: <input name='stillNeeded' type='number' min='0' value={{item.stillNeeded}}></span>
         </div>
         <div class="module-card-new">
           <span class="fa fa-user"></span>
-          <span name='new' contenteditable="true">New: {{item.new}}</span>
+          New: <input name='new' value={{item.new}}>
         </div>
       </div> <!-- /module-card-meta -->
 
       <div class="module-card-bottom">
         <img name='image' src='{{item.image}}' alt="image of item" class="module-card-img" />
 
-        <div><p name='description' contenteditable="true">{{item.description}}</p></div>
+        <div>
+          <textarea name='description'>{{item.description}}</textarea>
+        </div>
         <div class="module-card-button-wrap">
           <button name='update' class="module-card-button"> Update </button>
           <button name="delete" class='module-card-button'> Delete </button>

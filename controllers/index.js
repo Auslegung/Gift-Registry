@@ -66,10 +66,14 @@ router.get('/:userId/home', function(req, res){
 router.get('/:userId/home/:itemId', function(req, res){
   User.findById(req.params.userId)
   .then(function(user){
-    return user.registryItems.id(req.params.itemId)
+    var userAndItem = {
+      user: user,
+      item: user.registryItems.id(req.params.itemId)
+    }
+    return userAndItem
   })
-  .then(function(item){
-    res.render('index/edit', {item: item})
+  .then(function(userAndItem){
+    res.render('index/edit', {user: userAndItem.user, item: userAndItem.item})
   })
 });
 
@@ -182,25 +186,24 @@ router.post('/:userId/home/newItem', function(req, res){
 
 // edit an item in the user's gift registry
 router.put('/:userId/home/:itemId', function(req, res){
-  console.log('req.params inside put route:', req.params);
-  console.log('req.body:', req.body);
-  console.log('res:', res);
-  // should be able to do a findOneAndUpdate on the itemId directly, without
-  // going through the User first
   User.findOneAndUpdate(
-    {id: req.params.userId},
+    {'_id': req.params.userId, 'registryItems._id': req.params.itemId},
     {$set: {
-      name: req.body.name,
-      image: req.body.image,
-      description: req.body.description,
-      new: req.body.new,
-      stillNeeded: req.body.stillNeeded,
-      registryType: 'baby'
-    }});
+      'registryItems.$.name': req.body.name,
+      'registryItems.$.image': req.body.image,
+      'registryItems.$.description': req.body.description,
+      'registryItems.$.new': req.body.new,
+      'registryItems.$.stillNeeded': req.body.stillNeeded,
+      'registryItems.$.registryType': 'baby'
+    }}, // end $set:
+    {upsert: true, returnNewDocument: true}
+  ) // end User.findOneAndUpdate()
+  .catch(function(err){
+    console.log(err);
+  })
+  .then(function(updatedItem){
+    res.redirect('/'+req.params.userId+'/home/')
+  })
 });
-
-
-
-
 
 module.exports = router;

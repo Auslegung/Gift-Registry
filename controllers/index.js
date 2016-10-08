@@ -64,7 +64,7 @@ router.get('/:userId/home', function(req, res){
 
 // render page to edit item
 router.get('/:userId/home/:itemId', function(req, res){
-  console.log('oops');
+  // console.log('oops');
   res.render('index/edit', {user: req.body.user})
 });
 
@@ -85,7 +85,7 @@ router.get('/home/results', function(req, res){
       console.log(err);
     })
     .then(function(user){
-      console.log(user);
+      // console.log(user);
       res.render('index/results', {user: user});
     })
   } // end if
@@ -100,7 +100,7 @@ router.get('/:userId/registry', function(req, res){
 
 // add a new user to the database
 router.post('/home/register', function(req, res){
-  console.log(req.body);
+  // console.log(req.body);
   User.register(
     new User({
       username: req.body.username,
@@ -121,7 +121,7 @@ router.post('/home/register', function(req, res){
         console.log(err);
         return res.status(400).send('Could not register');
       } else {
-        console.log('no error when creating ', user);
+        // console.log('no error when creating ', user);
         req.flash('info', 'Registration was a success!');
       } // end if else
       res.redirect('/home');
@@ -148,6 +148,7 @@ router.post('/home/login', passport.authenticate('local', {failureRedirect: '/ho
 
 // create a new item in the user's gift registry
 router.post('/:userId/home/newItem', function(req, res){
+  // console.log(req.user);
   User.findByIdAndUpdate(
     req.user._id,
     {$push: {
@@ -187,13 +188,21 @@ router.post('/:userId/home/newItem', function(req, res){
 
 // edit an item in the user's gift registry
 router.put('/:userId/home/:itemId', function(req, res){
+  console.log(req.params);
   console.log(req.body);
+  console.log('req is:', req);
   // should be able to do a findOneAndUpdate on the itemId directly, without
   // going through the User first
-  // User.findOneAndUpdate(
-  //   req.params.itemId,
-  //
-  // )
+  User.findOneAndUpdate(
+    {id: req.params.itemId},
+    {$set: {
+      name: req.body.name,
+      image: req.body.image,
+      description: req.body.description,
+      new: req.body.new,
+      stillNeeded: req.body.stillNeeded,
+      registryType: 'baby'
+    }});
 });
 
 

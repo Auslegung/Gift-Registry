@@ -36,7 +36,7 @@ app.use('/', require('./controllers/index.js'));
 // Promises
 var mongoose = require('mongoose');
 // Mongoose
-mongoose.Promises = global.Promise;
+mongoose.Promise = global.Promise;
 var mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/gift';
 mongoose.connect(mongoURI);
 

@@ -14,8 +14,7 @@
         <form class="logout" action="/logout?_method=DELETE" method="POST">
           <button type="submit" name="logout">Log Out</button>
         </form>
-      {{/if}}
-      {{#unless loggedIn}}
+      {{else}}
         <form class="register" action="/home/register" method="POST">
           <input type="email" autofocus="true" required name="username" placeholder="email">
           <input type="password" name="password" required placeholder="password">
@@ -36,7 +35,7 @@
           <input type="password" name="password" placeholder="password">
           <input type="submit" name="login" value="Log In">
         </form>
-      {{/unless}}
+      {{/if}}
       <h1>GiftRegistryFreedom.com</h1>
       <h2>Break free from gift registry restraints!</h2>
       <form class="search" action="/home/results" method="GET">

@@ -15,33 +15,51 @@ var flash = require('connect-flash');
 router.use(flash());
 
 // Routes
-
+// TODO: in show.hbs, only show the edit button if a user is logged in.  Otherwise, allow the user to decrement the number needed
 ////////////////   DELETE ROUTES   ////////////////
 
 // delete the current session
 router.delete('/logout', function(req, res){
   req.logout();
   req.flash('info', 'Successfully logged out');
-  res.redirect('/home');
+  res.render('home', {loggedIn: false});
 });
 ////////////////   GET ROUTES   ////////////////
 
 // render home page
 router.get('/home', function(req, res){
-  var viewData = {title: 'GiftRegistryFreedom'};
-  res.render('home', viewData);
+  console.log('req.session.passport is:', req.session.passport);
+  if (req.session.passport) {
+    var viewData = {title: 'GiftRegistryFreedom', loggedIn: true};
+  }
+  else {
+    var viewData = {title: 'GiftRegistryFreedom', loggedIn: false};
+  }
+  res.render('home', {title: viewData.title, loggedIn: viewData.loggedIn});
 });
 
-// render a user's home page TODO FIX CHECK IF USER IS LOGGED IN
+// render a user's home page
 router.get('/:userId/home', function(req, res){
+  console.log('req.params is:', req.params);
+  // console.log('req.body is:', req.body);
+  // console.log('req.sessionStore.sessions.passport is:', req.sessionStore.sessions.passport);
+  // console.log('req.user is:', req.user);
+  console.log('req.session.passport.user is:', req.session.passport.user);
+  console.log('req.session is:', req.session);
+
   User.findById(req.params.userId)
-  .then(function(user){
-    if (Object.keys(req.sessionStore.sessions).length) { // if username TODO
-      var loggedIn = true;
-    } else {
-      var loggedIn = false;
+  .then(function(person){
+    if (req.session.passport.user){
+      if (req.session.passport.user === person.username) {
+          var loggedIn = true;
+        } else {
+          var loggedIn = false;
+        }
+      return {user: person, loggedIn: loggedIn};
     }
-    return {user: user, loggedIn: loggedIn};
+  })
+  .catch(function(err){
+    console.log(err);
   })
   .then(function(userAndLoggedIn){
     res.render('index/show', {user: userAndLoggedIn.user, loggedIn: userAndLoggedIn.loggedIn});

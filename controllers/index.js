@@ -18,11 +18,6 @@ router.use(flash());
 
 ////////////////   DELETE ROUTES   ////////////////
 
-// delete an item from a user's gift registry
-router.delete('/:userId/home/:itemId', function(req, res){
-
-});
-
 // delete the current session
 router.delete('/logout', function(req, res){
   req.logout();
@@ -182,28 +177,42 @@ router.post('/:userId/home/newItem', function(req, res){
   ) // end findByIdAndUpdate
 });
 
-////////////////   PUT ROUTE   ////////////////
+////////////////   PUT & DELETE ROUTE   ////////////////
 
-// edit an item in the user's gift registry
+// edit and delete an item in the user's gift registry
 router.put('/:userId/home/:itemId', function(req, res){
-  User.findOneAndUpdate(
-    {'_id': req.params.userId, 'registryItems._id': req.params.itemId},
-    {$set: {
-      'registryItems.$.name': req.body.name,
-      'registryItems.$.image': req.body.image,
-      'registryItems.$.description': req.body.description,
-      'registryItems.$.new': req.body.new,
-      'registryItems.$.stillNeeded': req.body.stillNeeded,
-      'registryItems.$.registryType': 'baby'
-    }}, // end $set:
-    {upsert: true, returnNewDocument: true}
-  ) // end User.findOneAndUpdate()
-  .catch(function(err){
-    console.log(err);
-  })
-  .then(function(updatedItem){
-    res.redirect('/'+req.params.userId+'/home/')
-  })
+  if (req.body.update === '') {
+    User.findOneAndUpdate(
+      {'_id': req.params.userId, 'registryItems._id': req.params.itemId},
+      {$set: {
+        'registryItems.$.name': req.body.name,
+        // 'registryItems.$.image': req.body.image,
+        'registryItems.$.description': req.body.description,
+        'registryItems.$.new': req.body.new,
+        'registryItems.$.stillNeeded': req.body.stillNeeded,
+        'registryItems.$.registryType': 'baby'
+      }}, // end $set:
+      {upsert: true, returnNewDocument: true}
+    ) // end User.findOneAndUpdate()
+    .catch(function(err){
+      console.log(err);
+    })
+    .then(function(updatedItem){
+      res.redirect('/'+req.params.userId+'/home/')
+    })
+  } // end if
+  else if (req.body.delete === '') {
+    User.findOneAndUpdate(
+      {'_id': req.params.userId},
+      {$pull: {'registryItems': {'_id': req.params.itemId}}
+    })
+    .catch(function(err){
+      console.log(err);
+    })
+    .then(function(){
+      res.redirect('/'+req.params.userId+'/home/');
+    })
+  } // end if
 });
 
 module.exports = router;

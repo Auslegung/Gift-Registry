@@ -85,11 +85,6 @@ router.get('/home/results', function(req, res){
   } // end if
 });
 
-// render chosen gift registry
-router.get('/:userId/registry', function(req, res){
-  res.render('index/show');
-});
-
 ////////////////   POST ROUTES   ////////////////
 
 // add a new user to the database TODO FIX ADD PARTNER TO USER

@@ -3,7 +3,7 @@
   {{#if loggedIn}}
     <div class="module-card">
       <form class="" action="/user.id/home/newItem" method="POST">
-        <input class="module-card-name" contenteditable="true" name="name"></input>
+        <input class="module-card-name" name="name"></input>
 
         <div class="module-card-meta">
           <div class="module-card-category">
@@ -35,12 +35,12 @@
   {{#each user.registryItems}}
     <div class="module-card">
       <form action="/{{../user._id}}/home/{{_id}}" method="GET">
-        <div class="module-card-name" name='name' contenteditable="true">{{name}}</div>
+        <div class="module-card-name" name='name' >{{name}}</div>
 
         <div class="module-card-meta">
           <div class="module-card-category">
             <span class="fa fa-tag"></span>
-            <span>Still Needed: <span name='stillNeeded' contenteditable="true">{{stillNeeded}}</span></span>
+            <span>Still Needed: <span name='stillNeeded' ditable="true">{{stillNeeded}}</span></span>
           </div>
           <div class="module-card-new">
             <span class="fa fa-user"></span>

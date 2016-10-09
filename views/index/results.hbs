@@ -1,16 +1,27 @@
-<h1>Registries:</h1>
-  <table>
-    <caption><h2> Search Results </h2></caption>
-    <tr>
-      <th>Name</th>
-      <th>City</th>
-      <th>State</th>
-    </tr>
-    {{#each user}}
-      <tr>
-        <td>{{fullName}}</td>
-        <td>{{address.city}}</td>
-        <td>{{address.state}}</td>
-      </tr>
-    {{/each}}
-  </table>
+{{user}}
+{{user.fullName}}
+<div class="module-card-wrap">
+  {{#each user}}
+    <div class="module-card">
+      <a href="/{{_id}}/home">
+        <div class="module-card-name" name='name'>{{fullName}}</div>
+        <div class="module-card-meta">
+          <div class="module-card-category">
+            <span class="fa fa-tag"></span> <!-- maybe delete -->
+          </div>
+          <div class="module-card-new">
+            <span class="fa fa-user"></span> <!-- maybe delete -->
+          </div>
+        </div> <!-- /module-card-meta -->
+
+        <div class="module-card-bottom">
+          <img name='image' src={{image}} alt="image of item" class="module-card-img" />
+
+          <div><p>{{address.city}} ', ' {{address.state}}</p></div>
+          <div class="module-card-button-wrap">
+          </div> <!-- /module-card-button-wrap -->
+        </div> <!-- /module-card-bottom -->
+      </a>
+    </div> <!-- /module-card -->
+  {{/each}}
+</div> <!-- /module-card-wrap -->

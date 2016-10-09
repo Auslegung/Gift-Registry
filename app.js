@@ -36,8 +36,9 @@ app.use('/', require('./controllers/index.js'));
 // Promises
 var mongoose = require('mongoose');
 // Mongoose
-mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/gift');
+mongoose.Promises = global.Promise;
+var mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/gift';
+mongoose.connect(mongoURI);
 
 // Login sessions and validation
 var passport = require('passport');

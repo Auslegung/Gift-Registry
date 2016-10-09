@@ -1,49 +1,63 @@
+<div class="module-card-wrap">
 
-<table>
-  <caption>
-    {{user.firstName}}'s and {{user.partner.firstName}}'s {{user.registryItems.registryType}} Registry
-  </caption>
-  <tr>
-    <th>Name</th>
-    <th>Image</th>
-    <th>Description</th>
-    <th>New or Used?</th>
-    <th>Quantity</th>
-    <th>Notes</th>
-    <th>Suggested stores</th>
-    <th>Still Needed</th>
-    {{#if user}}
-      <th>Add/Edit</th>
-    {{/if}}
-  </tr>
-  {{#each user.registryItems}}
-    <tr>
-      <td>{{name}}</td>
-      <td>{{image}}</td>
-      <td>{{description}}</td>
-      <td>{{new}}</td>
-      <td>{{quantity}}</td>
-      <td>{{note}}</td>
-      <td>{{locations}}</td>
-      <td>{{purchased}}</td>
-      {{#if ../user}}
-        <td><a href="/" + ../user._id + "/home/" + {{itemId}}>Edit</a></td>
-      {{/if}}
-    </tr>
-  {{/each}}
-  {{#if user}}
-  <form class="newItem " action="/:userId/home/newItem" method="POST">
-      <tr>
-        <td><input type='text' name="name" placeholder="Input New Item Here"></td>
-        <td><input type='text' name="image" placeholder="image"></td>
-        <td><input type='text' name="description" placeholder="description"></td>
-        <td><input type='text' name="new" placeholder="new or used? "></td>
-        <td><input type='text' name="quantity" placeholder="quantity"></td>
-        <td><input type='text' name="note" placeholder="notes"></td>
-        <td><input type='text' name="locations" placeholder="suggested stores"></td>
-        <td><input type='text' name="purchased" placeholder="still needed"></td>
-        <td><button type='submit' name="submit">Add New Item</button></td>
-      </tr>
-    </form>
+  {{#if loggedIn}}
+    <div class="module-card">
+      <form class="" action="/user.id/home/newItem" method="POST">
+        <input class="module-card-name" name="name"></input>
+
+        <div class="module-card-meta">
+          <div class="module-card-category">
+            <span class="fa fa-tag"></span>
+            <span>Still Needed: </span><input type="Number" name="stillNeeded" min='0' value="1">
+          </div>
+          <div class="module-card-new">
+            <span class="fa fa-user"></span>
+            <label>New: <input type="checkbox" name="new" value="new"></label><br>
+            <label>Used: <input type="checkbox" name="used" value="used"></label>
+          </div>
+        </div> <!-- /module-card-meta -->
+
+        <div class="module-card-bottom">
+          <input type="url" name="image" placeholder="image url">
+          <div><br>
+            <textarea rows='3' name="description" placeholder="enter notes, description, suggested stores, etc"></textarea>
+          </div>
+
+          <div class="module-card-button-wrap">
+              <button class="module-card-button"> Add New Item </button>
+          </div> <!-- /module-card-button-wrap -->
+
+        </div> <!-- /module-card-bottom -->
+      </form>
+    </div> <!-- /module-card -->
   {{/if}}
-</table>
+
+  {{#each user.registryItems}}
+    <div class="module-card">
+      <form action="/{{../user._id}}/home/{{_id}}" method="GET">
+        <div class="module-card-name" name='name' >{{name}}</div>
+
+        <div class="module-card-meta">
+          <div class="module-card-category">
+            <span class="fa fa-tag"></span>
+            <span>Still Needed: <span name='stillNeeded' ditable="true">{{stillNeeded}}</span></span>
+          </div>
+          <div class="module-card-new">
+            <span class="fa fa-user"></span>
+            <span name='new'>New: {{new}}</span>
+          </div>
+        </div> <!-- /module-card-meta -->
+
+        <div class="module-card-bottom">
+          <img name='image' src={{image}} alt="image of item" class="module-card-img" />
+
+          <div><p name='description'>{{description}}</p></div>
+          <div class="module-card-button-wrap">
+            <button class="module-card-button"> Edit </button>
+          </div> <!-- /module-card-button-wrap -->
+        </div> <!-- /module-card-bottom -->
+      </form>
+    </div> <!-- /module-card -->
+  {{/each}}
+
+</div> <!-- /module-card-wrap -->

@@ -18,11 +18,6 @@ router.use(flash());
 
 ////////////////   DELETE ROUTES   ////////////////
 
-// delete an item from a user's gift registry
-router.delete('/:userId/home/:itemId', function(req, res){
-
-});
-
 // delete the current session
 router.delete('/logout', function(req, res){
   req.logout();
@@ -37,53 +32,76 @@ router.get('/home', function(req, res){
   res.render('home', viewData);
 });
 
-// render a user's home page
+// render a user's home page TODO FIX CHECK IF USER IS LOGGED IN
 router.get('/:userId/home', function(req, res){
-  // console.log('first name is:', req.user.firstName);
-  // DEREK where does :userId come from?
-  // DEREK how to get the user's registry to appear when searched for by someone else? (no one logged in)
-  // DEREK why won't flash work
-  //
-  res.render('index/show', {user: req.user});
+  User.findById(req.params.userId)
+  .then(function(user){
+    if (Object.keys(req.sessionStore.sessions).length) { // if username TODO
+      var loggedIn = true;
+    } else {
+      var loggedIn = false;
+    }
+    return {user: user, loggedIn: loggedIn};
+  })
+  .then(function(userAndLoggedIn){
+    res.render('index/show', {user: userAndLoggedIn.user, loggedIn: userAndLoggedIn.loggedIn});
+  });
 });
-
-// router.post('search', function(req,res){
-//   User.find(name: {req.body.name })
-//
-//   { _id = 1, name: 'derek'}
-//     { _id = 2, name: 'derek jacobi'}
-//
-//   <a href='user._id/home' > Derek </a>
-// })
 
 // render page to edit item
 router.get('/:userId/home/:itemId', function(req, res){
-  res.render('index/edit');
+  User.findById(req.params.userId)
+  .then(function(user){
+    var userAndItem = {
+      user: user,
+      item: user.registryItems.id(req.params.itemId)
+    }
+    return userAndItem
+  })
+  .then(function(userAndItem){
+    res.render('index/edit', {user: userAndItem.user, item: userAndItem.item})
+  })
 });
 
 // render search results
 router.get('/home/results', function(req, res){
-  res.render('index/results');
-});
-
-// render chosen gift registry
-router.get('/:userId/registry', function(req, res){
-  res.render('index/show');
+  var searchString = req.query.searchString;
+  if (searchString) {
+    var names = searchString.split(' ');
+    var firstName = names[0];
+    var lastName = names[names.length - 1];
+    new Promise(function(resolve, reject){
+      resolve();
+    })
+    .then(function(){
+      return User.find({ fullName: new RegExp(searchString, 'i') });
+    })
+    .catch(function(err){
+      console.log(err);
+    })
+    .then(function(user){
+      res.render('index/results', {user: user});
+    })
+  } // end if
 });
 
 ////////////////   POST ROUTES   ////////////////
 
-// add a new user to the database
+// add a new user to the database TODO FIX ADD PARTNER TO USER
 router.post('/home/register', function(req, res){
   User.register(
     new User({
-      username: req.body.email,
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
+      username: req.body.username,
+      fullName: req.body.firstName + ' ' + req.body.lastName,
       partner: req.body.partner,
       createdAt: new Date(),
       updatedAt: new Date(),
-      registryItems: []
+      registryItems: [],
+      'address.address1': req.body.address1,
+      'address.address2': req.body.address2,
+      'address.city': req.body.city,
+      'address.state': req.body.state,
+      'address.zip': req.body.zip,
     }),
     req.body.password,
     function(err, user){
@@ -91,7 +109,6 @@ router.post('/home/register', function(req, res){
         console.log(err);
         return res.status(400).send('Could not register');
       } else {
-        console.log('no error when creating ', user);
         req.flash('info', 'Registration was a success!');
       } // end if else
       res.redirect('/home');
@@ -129,7 +146,7 @@ router.post('/:userId/home/newItem', function(req, res){
         quantity: req.body.quantity,
         note: req.body.note,
         locations: [req.body.locations],
-        purchased: req.body.purchased,
+        stillNeeded: req.body.stillNeeded,
         registryType: 'baby'
       }}}, // end $push registryItems
     {upsert: true, new: true},
@@ -140,28 +157,44 @@ router.post('/:userId/home/newItem', function(req, res){
       res.redirect('/' + req.user._id + '/home');
     }
   ) // end findByIdAndUpdate
-  // User.registryItems.push(
-  //   name: req.body.name,
-  //   image: req.body.image,
-  //   description: req.body.description,
-  //   new: req.body.new,
-  //   quantity: req.body.quantity,
-  //   note: req.body.note,
-  //   locations: [req.body.locations],
-  //   purchased: req.body.purchased,
-  //   registryType: 'baby'
-  // )
 });
 
-////////////////   PATCH ROUTE   ////////////////
+////////////////   PUT & DELETE ROUTE   ////////////////
 
-// edit an item in the user's gift registry
-router.patch('/:userId/home/:itemId', function(req, res){
-
+// edit and delete an item in the user's gift registry
+router.put('/:userId/home/:itemId', function(req, res){
+  if (req.body.update === '') {
+    User.findOneAndUpdate(
+      {'_id': req.params.userId, 'registryItems._id': req.params.itemId},
+      {$set: {
+        'registryItems.$.name': req.body.name,
+        // 'registryItems.$.image': req.body.image,
+        'registryItems.$.description': req.body.description,
+        'registryItems.$.new': req.body.new,
+        'registryItems.$.stillNeeded': req.body.stillNeeded,
+        'registryItems.$.registryType': 'baby'
+      }}, // end $set:
+      {upsert: true, returnNewDocument: true}
+    ) // end User.findOneAndUpdate()
+    .catch(function(err){
+      console.log(err);
+    })
+    .then(function(updatedItem){
+      res.redirect('/'+req.params.userId+'/home/')
+    })
+  } // end if
+  else if (req.body.delete === '') {
+    User.findOneAndUpdate(
+      {'_id': req.params.userId},
+      {$pull: {'registryItems': {'_id': req.params.itemId}}
+    })
+    .catch(function(err){
+      console.log(err);
+    })
+    .then(function(){
+      res.redirect('/'+req.params.userId+'/home/');
+    })
+  } // end if
 });
-
-
-
-
 
 module.exports = router;

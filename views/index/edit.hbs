@@ -1,36 +1,30 @@
+<div class="module-card-wrap">
+  <div class="module-card">
+    <form action="/{{user._id}}/home/{{item._id}}?_method=PUT" method="POST">
+      <input class="module-card-name" name='name' value={{item.name}}>
 
-<table>
-  <caption>
-    Edit {{user.registryItems.name}}
-  </caption>
-  <tr>
-    <th>Name</th>
-    <th>Image</th>
-    <th>Description</th>
-    <th>New or Used?</th>
-    <th>Quantity</th>
-    <th>Notes</th>
-    <th>Suggested stores</th>
-    <th>Still Needed</th>
-    <th>Edit</th>
-  </tr>
-    <tr>
-      <td>{{user.registryItems.name}}</td>
-      <td>{{user.registryItems.image}}</td>
-      <td>{{user.registryItems.description}}</td>
-      <td>{{user.registryItems.new}}</td>
-      <td>{{user.registryItems.quantity}}</td>
-      <td>{{user.registryItems.note}}</td>
-      <td>{{user.registryItems.locations}}</td>
-      <td>{{user.registryItems.purchased}}</td>
-      <td>
-        <form class="" action="/:userId/home/:itemId" method="PUT">
-          <input type="submit" name="submit" value="Edit">
-        </form>
-      </td>
-    </tr>
-</table>
+      <div class="module-card-meta">
+        <div class="module-card-category">
+          <span class="fa fa-tag"></span>
+          <span>Still Needed: <input name='stillNeeded' type='number' min='0' value={{item.stillNeeded}}></span>
+        </div>
+        <div class="module-card-new">
+          <span class="fa fa-user"></span>
+          New: <input name='new' value={{item.new}}>
+        </div>
+      </div> <!-- /module-card-meta -->
 
-<form class="" action="/:userId/home/:itemId" method="POST">
-  <input type="button" name="Delete" value="Delete Item">
-</form>
+      <div class="module-card-bottom">
+        <img name='image' src='{{item.image}}' alt="image of item" class="module-card-img" />
+
+        <div>
+          <textarea name='description'>{{item.description}}</textarea>
+        </div>
+        <div class="module-card-button-wrap">
+          <button name='update' class="module-card-button"> Update </button>
+          <button name="delete" class='module-card-button'> Delete </button>
+        </div> <!-- /module-card-button-wrap -->
+      </div> <!-- /module-card-bottom -->
+    </form>
+  </div> <!-- /module-card -->
+</div> <!-- /module-card-wrap -->

@@ -9,26 +9,39 @@ var ItemSchema = new Schema({
   new: Boolean,
   quantity: Number,
   note: String,
-  locations: [String],
-  purchased: Boolean,
+  locations: String,
+  stillNeeded: Number,
   registryType: String
 })
 
+// var AddressSchema = new Schema({
+//   address1: String,
+//   address2: String,
+//   city: String,
+//   state: String,
+//   zip: String
+// })
+
 var PartnerSchema = new Schema({
   email: String,
-  firstName: {type: String, required: true},
-  lastName: {type: String, required: true},
+  fullName: {type: String, required: true}
 })
 
 var UserSchema = new Schema({
   username: String,
   password: String,
-  firstName: {type: String, required: true},
-  lastName: {type: String, required: true},
-  partner: [PartnerSchema],
+  fullName: {type: String, required: true},
+  partner: PartnerSchema,
   createdAt: Date,
   updatedAt: Date,
-  registryItems: [ItemSchema]
+  registryItems: [ItemSchema],
+  address: {
+    address1: String,
+    address2: String,
+    city: String,
+    state: String,
+    zip: String
+  }
 });
 
 UserSchema.plugin(passportLocalMongoose);

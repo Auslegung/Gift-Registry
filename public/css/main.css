@@ -1,5 +1,6 @@
 body {
   background-color: lightblue;
+  margin: 2%;
 }
 
 * {
@@ -16,9 +17,10 @@ input[name='description'] {
 }
 
 .module-card-wrap {
-  max-width: 70%;
+  max-width: 95%;
   display: flex;
   flex-wrap: wrap;
+  /*flex-flow: row wrap;*/
   margin: 0 auto;
 }
 
@@ -33,7 +35,8 @@ input[name='description'] {
   background: #fff;
   border: 1px solid #f1f1f1;
   box-shadow: 1px 1px 2px rgba(0,0,0,0.05);
-  min-width: 100%;
+  min-width: 275px;
+  /*width: 200px;*/
   padding: 10px;
   margin-bottom: 5%;
   display: flex;
@@ -86,10 +89,33 @@ input[name='description'] {
   font-weight: normal;
 }
 
-@media screen and (min-width: 600px) {
+@media screen and (min-width: 1400px) {
   .module-card {
-    width: 48%;
+    width: 24%;
+    max-width: 350px;
     margin: 0 auto 2%;
-    min-width: 0;
   }
 }
+@media screen and (max-width: 1400px) and (min-width: 980px) {
+  .module-card {
+    width: 32%;
+    margin: 0 auto 2%;
+  }
+}
+@media screen and (max-width: 980px) and (min-width: 650px){
+  .module-card {
+    width: 47%;
+    margin: 0 auto 2%;
+  }
+}
+@media screen and (max-width: 650px){
+  .module-card {
+    width: 70%;
+    margin: 0 auto 2%;
+    min-width: 250px;
+  }
+}
+/*under 650 increase their size to 85%*/
+/*1400+ 3 columns
+950-1400 2 columns
+under 950 1 column*/

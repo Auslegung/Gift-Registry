@@ -32,9 +32,9 @@ router.get('/home', function(req, res){
   res.render('home', viewData);
 });
 
-// render a user's home page
+// render a user's home page TODO FIX CHECK IF USER IS LOGGED IN
 router.get('/:userId/home', function(req, res){
-    User.findById(req.params.userId)
+  User.findById(req.params.userId)
   .then(function(user){
     if (Object.keys(req.sessionStore.sessions).length) { // if username TODO
       var loggedIn = true;
@@ -47,15 +47,6 @@ router.get('/:userId/home', function(req, res){
     res.render('index/show', {user: userAndLoggedIn.user, loggedIn: userAndLoggedIn.loggedIn});
   });
 });
-
-// router.post('search', function(req,res){
-//   User.find(name: {req.body.name })
-//
-//   { _id = 1, name: 'derek'}
-//     { _id = 2, name: 'derek jacobi'}
-//
-//   <a href='user._id/home' > Derek </a>
-// })
 
 // render page to edit item
 router.get('/:userId/home/:itemId', function(req, res){
@@ -89,7 +80,6 @@ router.get('/home/results', function(req, res){
       console.log(err);
     })
     .then(function(user){
-      // console.log(user);
       res.render('index/results', {user: user});
     })
   } // end if
@@ -102,9 +92,8 @@ router.get('/:userId/registry', function(req, res){
 
 ////////////////   POST ROUTES   ////////////////
 
-// add a new user to the database
+// add a new user to the database TODO FIX ADD PARTNER TO USER
 router.post('/home/register', function(req, res){
-  // console.log(req.body);
   User.register(
     new User({
       username: req.body.username,
@@ -125,7 +114,6 @@ router.post('/home/register', function(req, res){
         console.log(err);
         return res.status(400).send('Could not register');
       } else {
-        // console.log('no error when creating ', user);
         req.flash('info', 'Registration was a success!');
       } // end if else
       res.redirect('/home');
@@ -152,7 +140,6 @@ router.post('/home/login', passport.authenticate('local', {failureRedirect: '/ho
 
 // create a new item in the user's gift registry
 router.post('/:userId/home/newItem', function(req, res){
-  // console.log(req.user);
   User.findByIdAndUpdate(
     req.user._id,
     {$push: {

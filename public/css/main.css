@@ -1,6 +1,20 @@
 body {
   background-color: lightblue;
   margin: 2%;
+  font-family: 'Catamaran', sans-serif;
+}
+
+h1{
+  font-family: 'Pacifico', cursive;
+  color: rgba(75, 75, 75, .8);
+}
+/*.pageWrap{
+  width: 1000px;
+  margin: 0 auto;
+}*/
+header{
+  width: 70%;
+  margin: 30px auto;
 }
 
 * {
@@ -16,6 +30,9 @@ input[name='description'] {
   max-width: 100%;
 }
 
+#stillNeeded:not(:focus) {
+  border: 1px solid red;
+}
 .module-card-wrap {
   max-width: 95%;
   display: flex;

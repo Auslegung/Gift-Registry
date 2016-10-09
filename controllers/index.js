@@ -38,18 +38,11 @@ router.get('/home', function(req, res){
   res.render('home', {title: viewData.title, loggedIn: viewData.loggedIn});
 });
 
-// render a user's home page
-router.get('/:userId/home', function(req, res){
-  console.log('req.params is:', req.params);
-  // console.log('req.body is:', req.body);
-  // console.log('req.sessionStore.sessions.passport is:', req.sessionStore.sessions.passport);
-  // console.log('req.user is:', req.user);
-  console.log('req.session.passport.user is:', req.session.passport.user);
-  console.log('req.session is:', req.session);
-
+// render a user's gift registry
+router.get('/:userId/home', function(req, res){ // TODO this doesn't display login form correctly if user is logged in but on another user's registry, I think
   User.findById(req.params.userId)
   .then(function(person){
-    if (req.session.passport.user){
+    if (req.session.passport) {
       if (req.session.passport.user === person.username) {
           var loggedIn = true;
         } else {
@@ -68,17 +61,47 @@ router.get('/:userId/home', function(req, res){
 
 // render page to edit item
 router.get('/:userId/home/:itemId', function(req, res){
+  console.log('req.session is:', req.session);
+  console.log('req.params is:', req.params);
+
   User.findById(req.params.userId)
-  .then(function(user){
-    var userAndItem = {
-      user: user,
-      item: user.registryItems.id(req.params.itemId)
-    }
-    return userAndItem
+  .then(function(person){
+    console.log('person.registryItems.id(req.params.itemId) is:', person.registryItems.id(req.params.itemId));
+    if (req.session.passport) {
+      if (req.session.passport.user === person.username) {
+        var loggedIn = true;
+      }
+      else {
+        var loggedIn = false;
+      } // end if else
+    } // end if
+    return {
+      loggedIn: loggedIn,
+      user: person,
+      item: person.registryItems.id(req.params.itemId)
+    };
+  }) // end .then()
+  .catch(function(err){
+    console.log(err);
   })
-  .then(function(userAndItem){
-    res.render('index/edit', {user: userAndItem.user, item: userAndItem.item})
-  })
+  // .then(function(userAndLoggedIn){
+  //   var userAndItemAndLoggedIn = {
+  //     user: userAndLoggedIn.person,
+  //     item: userAndLoggedIn.person.registryItems.id(req.params.itemId),
+  //     loggedIn: userAndLoggedIn.person.loggedIn
+  //   }
+  //   return userAndItemAndLoggedIn;
+  // })
+  // .catch(function(err){
+  //   console.log(err);
+  // })
+  .then(function(viewData){
+    res.render('index/edit', {
+      user: viewData.user,
+      item: viewData.item,
+      loggedIn: viewData.loggedIn
+    }) // end res.render()
+  }) // end .then()
 });
 
 // render search results

@@ -4,48 +4,52 @@
     <meta charset="utf-8">
     <link href='/css/main.css' rel='stylesheet'>
     <title>{{title}}</title>
+    <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Catamaran" rel="stylesheet">
   </head>
   <body>
-    <header>
-      <!-- if successFlash
-      <p>{{successFlash}}</p> -->
+    <div id="pageWrap">
+      <header>
+        <!-- if successFlash
+        <p>{{successFlash}}</p> -->
 
-      {{#if loggedIn}}
-        <form class="logout" action="/logout?_method=DELETE" method="POST">
-          <button type="submit" name="logout">Log Out</button>
+        {{#if loggedIn}}
+          <form class="logout" action="/logout?_method=DELETE" method="POST">
+            <button type="submit" name="logout">Log Out</button>
+          </form>
+        {{else}}
+          <form class="register" action="/home/register" method="POST">
+            <input type="email" autofocus="true" required name="username" placeholder="email">
+            <input type="password" name="password" required placeholder="password">
+            <input type="text" name="firstName" required placeholder="First Name">
+            <input type="text" name="lastName" required placeholder="last name">
+            <input type="text" name="partnerFirstName" placeholder="partner's first name">
+            <input type="text" name="partnerLastName" placeholder="partner's last name">
+            <input type="email" name="partnerEmail" placeholder="partner's email">
+            <input type="text" name="address1" placeholder="address 1">
+            <input type="text" name="address2" placeholder="address 2">
+            <input type="text" name="city" required placeholder="city">
+            <input type="text" name="state" required placeholder="state">
+            <input type="text" name="zip" placeholder="zip">
+            <input type="submit" name="signup" value="Sign Up">
+          </form>
+          <form class="login" action="/home/login" method="POST">
+            <input type="email" name="username" placeholder="email">
+            <input type="password" name="password" placeholder="password">
+            <input type="submit" name="login" value="Log In">
+          </form>
+        {{/if}}
+        <h1>GiftRegistryFreedom.com</h1>
+        <h2>Break free from gift registry restraints!</h2>
+        <form class="search" action="/home/results" method="GET">
+          <input type="text" name="searchString" placeholder="name">
+          <input type="submit" name="search"> Search for a Registry </input>
         </form>
-      {{else}}
-        <form class="register" action="/home/register" method="POST">
-          <input type="email" autofocus="true" required name="username" placeholder="email">
-          <input type="password" name="password" required placeholder="password">
-          <input type="text" name="firstName" required placeholder="First Name">
-          <input type="text" name="lastName" required placeholder="last name">
-          <input type="text" name="partnerFirstName" placeholder="partner's first name">
-          <input type="text" name="partnerLastName" placeholder="partner's last name">
-          <input type="email" name="partnerEmail" placeholder="partner's email">
-          <input type="text" name="address1" placeholder="address 1">
-          <input type="text" name="address2" placeholder="address 2">
-          <input type="text" name="city" required placeholder="city">
-          <input type="text" name="state" required placeholder="state">
-          <input type="text" name="zip" placeholder="zip">
-          <input type="submit" name="signup" value="Sign Up">
-        </form>
-        <form class="login" action="/home/login" method="POST">
-          <input type="email" name="username" placeholder="email">
-          <input type="password" name="password" placeholder="password">
-          <input type="submit" name="login" value="Log In">
-        </form>
-      {{/if}}
-      <h1>GiftRegistryFreedom.com</h1>
-      <h2>Break free from gift registry restraints!</h2>
-      <form class="search" action="/home/results" method="GET">
-        <input type="text" name="searchString" placeholder="name">
-        <input type="submit" name="search">Search for a Registry</input>
-      </form>
-    </header>
-    {{{ body }}}
-    <footer>
+      </header>
+      {{{ body }}}
+      <footer>
 
-    </footer>
+      </footer>
+    </div> <!-- end page-wrap -->
   </body>
 </html>

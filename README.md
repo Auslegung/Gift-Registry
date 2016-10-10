@@ -98,4 +98,4 @@ Everything I would say to myself is already listed above.  Oh, plus you're
 handsome.
 
 ## 5. User Stories
-See userStories.md
+See [userStories.md](https://github.com/Auslegung/Gift-Registry/blob/developing/userStories.md)

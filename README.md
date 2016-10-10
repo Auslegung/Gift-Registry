@@ -80,6 +80,11 @@ that other users will know and plan accordingly.
 I would also like to expand the site so that users can create any kind of gift
 registry they want--wedding, birthday, Christmas, bar mitzvah, quinceanera, etc.
 
+The site needs better better password management.  Currently a user can create a
+single-character password, which was helpful during testing but dangerous for
+serious deployment.  There also needs to be an option for a user to change their
+password.
+
 ### Change Aesthetics
 
 There are several aesthetic changes I would like to make, such as creating a nav
@@ -89,8 +94,10 @@ something more meaningful to the user like `Purchased Used`.
 
 The user should be able to upload an image of themselves and their partner, to
 be displayed on the search results page, which will help another user find the
-correct registry.  
+correct registry.
 
+The image on the landing page should be responsive, and positioned differently
+on the page, etc etc.
 
 ## 4. Notes to Self
 

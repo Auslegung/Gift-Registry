@@ -5,17 +5,28 @@ purchased used or not, which is more pertinent for baby registries than
 other kinds of registries.
 
 ## 1. Technologies Used
-explanations of the technologies used
--[Trello](https://trello.com/b/ANU4xu98)
--[creately.com](https://creately.com/diagram/itubigp51/LcRG9WTAPfuFpacGpTrRA4cOFg%3D) for ERD, site diagramming, and file/directory structures
--[Justinmind](https://www.justinmind.com/free-wireframing-tool) for wireframing
--passport
--mongoose
--mongodb
+-I used [Trello](https://trello.com/b/ANU4xu98) for all planning, breaking
+things up into `Bugs`, `To Do`, `Working On`, `Not Functioning as Desired`,
+`Functioning as Desired`, and `Complete`.  I used labels to indicate if the card
+was a MVP requirement for the project, a reach goal, or a personal reach goal.
+
+-I used [creately.com](https://creately.com/diagram/itubigp51/LcRG9WTAPfuFpacGpTrRA4cOFg%3D) for ERD, site diagramming, and file/directory structures.
+
+-I used [Justinmind](https://www.justinmind.com/free-wireframing-tool) for wireframing.
 
 
 ## 2. My Approach
-the approach was taken
+### Planning
+Throughout Monday I planned out the project by creating a trello board,
+wireframe, ERD, site diagram, directory structure, and the routes I would need.
+Monday night I began scaffolding the routes so that they would simply show
+'working'.  
+
+### More Planning
+
+### Executing
+
+### Tweaking
 
 ## 3. Unsolved Problems
 self-explanatory
